@@ -45,7 +45,7 @@ for i in range(nframe_train):
     input_ = np.asarray(img_input)
 
     np.save(os.path.join(dir_save_train, 'label_%03d.npy' % i), label_)
-    np.save(os.path.join(dir_save_train), 'input_%03d.npy' % i, input_)
+    np.save(os.path.join(dir_save_train, 'input_%03d.npy' % i), input_)
 
 offset_nframe += nframe_train
 for i in range(nframe_val):
@@ -56,7 +56,7 @@ for i in range(nframe_val):
     input_ = np.asarray(img_input)
 
     np.save(os.path.join(dir_save_val, 'label_%03d.npy' % i), label_)
-    np.save(os.path.join(dir_save_val), 'input_%03d.npy' % i, input_)
+    np.save(os.path.join(dir_save_val, 'input_%03d.npy' % i), input_)
 
 offset_nframe += nframe_val
 for i in range(nframe_test):
@@ -67,7 +67,7 @@ for i in range(nframe_test):
     input_ = np.asarray(img_input)
 
     np.save(os.path.join(dir_save_test, 'label_%03d.npy' % i), label_)
-    np.save(os.path.join(dir_save_test), 'input_%03d.npy' % i, input_)
+    np.save(os.path.join(dir_save_test, 'input_%03d.npy' % i), input_)
 
 plt.subplot(121)
 plt.imshow(label_, cmap='gray')
