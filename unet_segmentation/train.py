@@ -342,7 +342,7 @@ for epoch in range(st_epoch + 1, num_epoch + 1):
             
             # Tensorboard 저장
             label = fn_tonumpy(label)
-            input = fn_tonumpy(fn_denorm(input))
+            input = fn_tonumpy(fn_denorm(input, mean=0.5, std=0.5))
             output = fn_tonumpy(fn_class(output))
 
             writer_val.add_image('label', label, num_batch_val * (epoch - 1) + batch, dataformats='NHWC')
