@@ -85,7 +85,7 @@ class UNet(nn.Module):
         self.dec1_2 = CBR2d(in_channels=2*64, out_channels=64)
         self.dec1_1 = CBR2d(in_channels=64, out_channels=64)
 
-        self.fc = nn.Conv2d(in_channels=64, out_channels=2, kernel_size=1, stride=1, padding=0, bias=True)
+        self.fc = nn.Conv2d(in_channels=64, out_channels=1, kernel_size=1, stride=1, padding=0, bias=True)
 
     def forward(self, x):
         enc1_1 = self.enc1_1(x)
@@ -173,22 +173,6 @@ class Dataset(torch.utils.data.Dataset):
         
         return data
 
-## Dataset test
-# dataset_train = Dataset(data_dir=os.path.join(data_dir, 'train'))
-
-# data = dataset_train.__getitem__(0)
-
-# input = data['input']
-# label = data['label']
-
-# plt.subplot(121)
-# plt.imshow(input.squeeze())
-
-# plt.subplot(122)
-# plt.imshow(label.squeeze())
-
-# plt.show()
-
 ## Transform 구현
 
 # Numpy -> Tensor
@@ -236,21 +220,3 @@ class RandomFlip(object):
         data = {'label': label, 'input': input}
 
         return data
-
-## Transform test
-# transform = transforms.Compose([Normalization(mean=0.5, std=0.5), RandomFlip(), ToTensor()])
-
-# dataset_train = Dataset(data_dir=os.path.join(data_dir, 'train'), transform=transform)
-
-# data = dataset_train.__getitem__(0)
-
-# input = data['input']
-# label = data['label']
-
-# plt.subplot(121)
-# plt.imshow(input.squeeze())
-
-# plt.subplot(122)
-# plt.imshow(label.squeeze())
-
-# plt.show()
