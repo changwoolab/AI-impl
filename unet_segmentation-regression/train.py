@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 from torchvision import transforms, datasets
 
-from model import UNet
+from model import *
 from dataset import *
 from util import *
 
@@ -38,7 +38,7 @@ parser.add_argument('--nx', default=480, type=int, dest='nx')
 parser.add_argument('--nch', default=3, type=int, dest='nch')
 parser.add_argument('--nker', default=64, type=int, dest='nker')
 
-parser.add_argument('--network', default='unet', choices=['unet', 'resnet', 'autoencoder'], type=str, dest='network')
+parser.add_argument('--network', default='unet', choices=['unet', 'resnet', 'hourglass'], type=str, dest='network')
 parser.add_argument('--learning_type', default='plain', choices=['plain', 'residual'], type=str, dest='learning_type')
 
 args = parser.parse_args()
@@ -107,6 +107,8 @@ else:
 ## 네트워크 생성
 if network == 'unet':
     net = UNet(nch=nch, nker=nker, norm='bnorm', learning_type=learning_type).to(device)
+elif network == 'hourglass':
+    net = Hourglass(nch=nch, nker=nker, norm='bnorm', learning_type=learning_type).to(device)
 # elif network == 'resnet':
 #     net = ResNet().to(device)
 
