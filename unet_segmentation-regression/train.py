@@ -258,17 +258,17 @@ else:
                 input_ = input[j]
                 output_ = output[j]
 
-                np.save(os.path.join(result_dir, 'numpy', '%04d_label.npy' % id), label_)
-                np.save(os.path.join(result_dir, 'numpy', '%04d_input.npy' % id), input_)
-                np.save(os.path.join(result_dir, 'numpy', '%04d_output.npy' % id), output_)
+                np.save(os.path.join(result_dir_test, 'numpy', '%04d_label.npy' % id), label_)
+                np.save(os.path.join(result_dir_test, 'numpy', '%04d_input.npy' % id), input_)
+                np.save(os.path.join(result_dir_test, 'numpy', '%04d_output.npy' % id), output_)
 
                 label_ = np.clip(label_, a_min=0, a_max=1)
                 input_ = np.clip(input_, a_min=0, a_max=1)
                 output_ = np.clip(output_, a_min=0, a_max=1)
 
-                plt.imsave(os.path.join(result_dir, 'png', '%04d_label.png' % id), label_)
-                plt.imsave(os.path.join(result_dir, 'png', '%04d_input.png' % id), input_)
-                plt.imsave(os.path.join(result_dir, 'png', '%04d_output.png' % id), output_)
+                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_label.png' % id), label_)
+                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_input.png' % id), input_)
+                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_output.png' % id), output_)
 
     print("AVG TEST: BATCH %04d / %04d | LOSS %.4f" %
                     (batch, num_batch_test, np.mean(loss_arr)))
