@@ -121,6 +121,8 @@ fn_tonumpy = lambda x: x.to('cpu').detach().numpy().transpose(0, 2, 3, 1)
 fn_denorm = lambda x, mean, std: (x * std) + mean
 # fn_class = lambda x: 1.0 * (x > 0.5)
 
+cmap = None
+
 ## Tensorboard를 사용하기 위한 SummaryWriter 설정
 writer_train = SummaryWriter(log_dir=os.path.join(log_dir, 'train'))
 writer_val = SummaryWriter(log_dir=os.path.join(log_dir, 'val'))
@@ -167,9 +169,10 @@ if mode == 'train':
 
             id = num_batch_train * (epoch - 1) + batch
 
-            plt.imsave(os.path.join(result_dir_train, 'png', '%04d_label.png' % id), label[0])
-            plt.imsave(os.path.join(result_dir_train, 'png', '%04d_input.png' % id), input[0])
-            plt.imsave(os.path.join(result_dir_train, 'png', '%04d_output.png' % id), output[0])
+            if epoch % 10 == 0:
+                plt.imsave(os.path.join(result_dir_train, 'png', '%04d_label.png' % id), label[0], cmap=cmap)
+                plt.imsave(os.path.join(result_dir_train, 'png', '%04d_input.png' % id), input[0], cmap=cmap)
+                plt.imsave(os.path.join(result_dir_train, 'png', '%04d_output.png' % id), output[0], cmap=cmap)
 
             # writer_train.add_image('label', label, num_batch_train * (epoch - 1) + batch, dataformats='NHWC')
             # writer_train.add_image('input', input, num_batch_train * (epoch - 1) + batch, dataformats='NHWC')
@@ -208,9 +211,10 @@ if mode == 'train':
 
                 id = num_batch_val * (epoch - 1) + batch
 
-                plt.imsave(os.path.join(result_dir_val, 'png', '%04d_label.png' % id), label[0])
-                plt.imsave(os.path.join(result_dir_val, 'png', '%04d_input.png' % id), input[0])
-                plt.imsave(os.path.join(result_dir_val, 'png', '%04d_output.png' % id), output[0])
+                if epoch % 10 == 0:
+                    plt.imsave(os.path.join(result_dir_val, 'png', '%04d_label.png' % id), label[0], cmap=cmap)
+                    plt.imsave(os.path.join(result_dir_val, 'png', '%04d_input.png' % id), input[0], cmap=cmap)
+                    plt.imsave(os.path.join(result_dir_val, 'png', '%04d_output.png' % id), output[0], cmap=cmap)
 
                 # writer_val.add_image('label', label, num_batch_val * (epoch - 1) + batch, dataformats='NHWC')
                 # writer_val.add_image('input', input, num_batch_val * (epoch - 1) + batch, dataformats='NHWC')
@@ -266,9 +270,9 @@ else:
                 input_ = np.clip(input_, a_min=0, a_max=1)
                 output_ = np.clip(output_, a_min=0, a_max=1)
 
-                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_label.png' % id), label_)
-                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_input.png' % id), input_)
-                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_output.png' % id), output_)
+                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_label.png' % id), label_, cmap=cmap)
+                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_input.png' % id), input_, cmap=cmap)
+                plt.imsave(os.path.join(result_dir_test, 'png', '%04d_output.png' % id), output_, cmap=cmap)
 
     print("AVG TEST: BATCH %04d / %04d | LOSS %.4f" %
                     (batch, num_batch_test, np.mean(loss_arr)))
