@@ -1,4 +1,9 @@
 import numpy as np
+from scipy.stats import poisson
+from scipy.io import loadmat
+
+from skimage.data import shepp_logan_phantom
+from skimage.transform import radon, iradon, rescale
 
 import matplotlib.pyplot as plt
 
@@ -92,16 +97,62 @@ msk = np.tile(msk, (1, 1, sz[2]))
 
 dst = img*msk
 
-plt.subplot(131)
-plt.imshow(np.squeeze(img), cmap=cmap, vmin=0, vmax=1)
-plt.title('Ground Truth')
+# plt.subplot(131)
+# plt.imshow(np.squeeze(img), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Ground Truth')
 
-plt.subplot(132)
-plt.imshow(np.squeeze(msk), cmap=cmap, vmin=0, vmax=1)
-plt.title('Gaussian Sampling Mask')
+# plt.subplot(132)
+# plt.imshow(np.squeeze(msk), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Gaussian Sampling Mask')
 
-plt.subplot(133)
-plt.imshow(np.squeeze(dst), cmap=cmap, vmin=0, vmax=1)
-plt.title('Gaussian Sampling')
+# plt.subplot(133)
+# plt.imshow(np.squeeze(dst), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Gaussian Sampling')
 
-plt.show()
+# plt.show()
+
+## 2-1. Denoising: Random noise
+sgm = 60.0
+noise = sgm / 255.0 * np.random.randn(sz[0], sz[1], sz[2])
+
+dst = img + noise
+
+# plt.subplot(131)
+# plt.imshow(np.squeeze(img), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Ground Truth')
+
+# plt.subplot(132)
+# plt.imshow(np.squeeze(noise), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Noise')
+
+# plt.subplot(133)
+# plt.imshow(np.squeeze(dst), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Noisy image')
+
+# plt.show()
+
+## 2-2. Denoising: poisson noise (image-domain)
+# dst = poisson.rvs(img*255.0)/255.0
+# noise = dst - img
+
+# plt.subplot(131)
+# plt.imshow(np.squeeze(img), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Ground Truth')
+
+# plt.subplot(132)
+# plt.imshow(np.squeeze(noise), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Noise')
+
+# plt.subplot(133)
+# plt.imshow(np.squeeze(dst), cmap=cmap, vmin=0, vmax=1)
+# plt.title('Noisy image')
+
+# plt.show()
+
+## 3. Super-resolution
+dw = 1/5.0
+order = 0 # Nearest-neighbor interpolation
+
+dst_dw = rescale(img, scale=(dw, dw, 1), order=order)
+dst_up = rescale(dst_dw, scale=(1/dw, 1/dw, 1), order=order)
+
